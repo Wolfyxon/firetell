@@ -24,8 +24,8 @@ export default function LoginPage() {
         const auth = getAuth();        
 
         signInWithEmailAndPassword(auth, email, password).then(
-            res => {
-                console.log(res)
+            (res) => {
+                window.location.replace("/");
             },
             (err: FirebaseError) => {
                 setError(ERRORS[err.code] ?? "Unable to log in");
