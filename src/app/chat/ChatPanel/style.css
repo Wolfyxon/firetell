@@ -1,0 +1,36 @@
+#sides {
+    display: flex;
+    height: 100%;
+}
+
+#chats {
+    flex: 0.25;
+}
+
+#chat-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    padding: 5px 10px;
+}
+
+#chat-messages {
+    flex: 1;
+}
+
+#chat-controls {
+    display: flex;
+}
+
+#inp-message {
+    flex: 1;
+    resize: none;
+    background-color: var(--color-panel2);
+    color: white;
+    border-color: var(--color-panel1)
+}
+
+#inp-message:focus {
+    border-color: var(--color-btn);
+}

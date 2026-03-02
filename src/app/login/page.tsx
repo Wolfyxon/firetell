@@ -22,7 +22,7 @@ export default function LoginPage() {
 
         signInWithEmailAndPassword(auth, email, password).then(
             (res) => {
-                window.location.replace("/");
+                window.location.replace("/chat");
             },
             (err: FirebaseError) => {
                 setError(FIREBASE_AUTH_ERRORS[err.code] ?? "Unable to log in");

@@ -1,0 +1,23 @@
+#chats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--color-panel1);
+    padding: 5px;
+}
+
+.chat-entry {
+    background: var(--color-panel2);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.1s;
+}
+
+.chat-entry:hover {
+    background: var(--color-btn)
+}
+
+.chat-entry:active {
+    opacity: 0.5;
+}

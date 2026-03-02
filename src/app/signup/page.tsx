@@ -33,7 +33,7 @@ export default function SignupPage() {
 
         createUserWithEmailAndPassword(auth, email, password).then(
             (res) => {
-                console.log(res);
+                window.location.replace("/chat");
             },
             (err) => {
                 setError(FIREBASE_AUTH_ERRORS[err.code] ?? err.code);
