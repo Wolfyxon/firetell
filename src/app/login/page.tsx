@@ -5,8 +5,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { SubmitEvent, useEffect, useState } from "react";
 import { getFrbApp, getPublicFirebaseConfig } from "@/lib/shared/firebaseUtil";
 
-import Page from "@/layouts/Page/Page";
 import "./style.css";
+import { PublicPage } from "@/layouts/Page/PublicPage";
 
 const ERRORS: Record<string, string> = {
     "auth/invalid-email": "Invalid e-mail format",
@@ -37,7 +37,7 @@ export default function LoginPage() {
     }
 
     return (
-        <Page>
+        <PublicPage>
             <h1>Log in</h1>
             <div>{error}</div>
             <form onSubmit={submit}>
@@ -67,6 +67,6 @@ export default function LoginPage() {
                     className="btn btn-primary" 
                 />
             </form>
-        </Page>
+        </PublicPage>
     );
 }

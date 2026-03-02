@@ -20,6 +20,10 @@ body {
     color: white;
 }
 
+main {
+    min-height: 80%;
+}
+
 a {
     color: var(--color-main2);
     transition: 0.1s;

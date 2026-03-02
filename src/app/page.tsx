@@ -1,10 +1,10 @@
-import Page from "@/layouts/Page/Page";
+import { PublicPage } from "@/layouts/Page/PublicPage";
 
 import "@/style/home.css";
 
 export default function Home() {
   return (
-    <Page>
+    <PublicPage>
       <div id="banner">
         <h1 id="title">Firetell</h1>
         <p>
@@ -17,6 +17,6 @@ export default function Home() {
         </div>
       </div>
       
-    </Page>
+    </PublicPage>
   );
 }
