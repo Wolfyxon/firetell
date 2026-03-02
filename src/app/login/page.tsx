@@ -1,10 +1,12 @@
 "use client"
 
-import Page from "@/layouts/Page/Page";
-import { getFrbApp, getPublicFirebaseConfig } from "@/lib/shared/firebaseUtil";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { SubmitEvent, useEffect, useState } from "react";
+import { getFrbApp, getPublicFirebaseConfig } from "@/lib/shared/firebaseUtil";
+
+import Page from "@/layouts/Page/Page";
+import "./style.css";
 
 const ERRORS: Record<string, string> = {
     "auth/invalid-email": "Invalid e-mail format",
@@ -36,15 +38,34 @@ export default function LoginPage() {
 
     return (
         <Page>
+            <h1>Log in</h1>
             <div>{error}</div>
             <form onSubmit={submit}>
-                <label>E-mail:</label> <br/>
-                <input type="text" onChange={e => setEmail(e.target.value)}/> <br/>
+                <label htmlFor="inp-mail">E-mail:</label>
+                <input
+                    type="text"
+                    className="input"
+                    id="inp-mail"  
+                    placeholder="Your e-mail..."
+                    onChange={e => setEmail(e.target.value)}
+                />
 
-                <label>Password:</label> <br/>
-                <input type="password" onChange={e => setPassword(e.target.value)}/> <br/>
+                <label htmlFor="inp-password">Password:</label>
+                <input 
+                    type="password"
+                    id="inp-password"
+                    className="input" 
+                    placeholder="Your password..."
+                    onChange={e => setPassword(e.target.value)}
+                />
 
-                <input type="submit" value="Log in" />
+                <a href="/signup">Create a new account</a>
+
+                <input
+                    type="submit" 
+                    value="Log in" 
+                    className="btn btn-primary" 
+                />
             </form>
         </Page>
     );
