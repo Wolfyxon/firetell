@@ -74,7 +74,7 @@ export default function SignupPage() {
                     onChange={e => setPassword2(e.target.value)}
                 />
 
-                <a href="/signup">Log into an existing account</a>
+                <a href="/login">Log into an existing account</a>
 
                 <input
                     type="submit" 
