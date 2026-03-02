@@ -2,6 +2,11 @@ import { FirebaseOptions } from "firebase/app";
 import firebase from "firebase/compat/app";
 require('firebase/auth')
 
+export const FIREBASE_AUTH_ERRORS: Record<string, string> = {
+    "auth/invalid-email": "Invalid e-mail format",
+    "auth/invalid-credential": "Invalid e-mail or password"
+};
+
 export function getPublicFirebaseConfig(): FirebaseOptions {
     // This could be done nicer, but the values are replaced at compile time and you can't seem to get them dynamically
     return {

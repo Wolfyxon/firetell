@@ -1,40 +1,51 @@
 "use client"
 
-import { FirebaseError } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { SubmitEvent, useState } from "react";
-import { FIREBASE_AUTH_ERRORS, getFrbApp } from "@/lib/shared/firebaseUtil";
 import { PublicPage } from "@/layouts/Page/PublicPage";
-
+import { FIREBASE_AUTH_ERRORS, getFrbApp } from "@/lib/shared/firebaseUtil";
 import "@/style/signPage.css";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { SubmitEvent, useState } from "react";
 
-export default function LoginPage() {
+
+export default function SignupPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
+    
     const [error, setError] = useState("");
 
     async function submit(e: SubmitEvent) {
         e.preventDefault();
         setError("");
 
-        getFrbApp();
-        const auth = getAuth();        
+        if(password != password2) {
+            setError("Passwords don't match");
+            return;
+        }
 
-        signInWithEmailAndPassword(auth, email, password).then(
+        if(password.length < 8) {
+            setError("Password must be at least 8 characters");
+            return;
+        }
+
+        getFrbApp();
+        const auth = getAuth();
+
+        createUserWithEmailAndPassword(auth, email, password).then(
             (res) => {
-                window.location.replace("/");
+                console.log(res);
             },
-            (err: FirebaseError) => {
-                setError(FIREBASE_AUTH_ERRORS[err.code] ?? "Unable to log in");
-                console.log(err);
+            (err) => {
+                setError(FIREBASE_AUTH_ERRORS[err.code] ?? err.code);
             }
         );
     }
 
     return (
         <PublicPage>
-            <h1>Log in</h1>
+            <h1>Sign up</h1>
             <div id="error">{error}</div>
+
             <form onSubmit={submit}>
                 <label htmlFor="inp-mail">E-mail:</label>
                 <input
@@ -54,14 +65,23 @@ export default function LoginPage() {
                     onChange={e => setPassword(e.target.value)}
                 />
 
-                <a href="/signup">Create a new account</a>
+                <label htmlFor="inp-repeat-password">Repeat password:</label>
+                <input 
+                    type="password"
+                    id="inp-repeat-password"
+                    className="input" 
+                    placeholder="Repeat password..."
+                    onChange={e => setPassword2(e.target.value)}
+                />
+
+                <a href="/signup">Log into an existing account</a>
 
                 <input
                     type="submit" 
-                    value="Log in" 
+                    value="Create account" 
                     className="btn btn-primary" 
                 />
             </form>
         </PublicPage>
-    );
+    )
 }
