@@ -1,4 +1,4 @@
-import { sendMessage } from "@/lib/server/chat";
+import { createMessage } from "@/lib/server/chat";
 import { errorRes, getRequestToken, ParamCtx } from "@/lib/server/serverUtil"
 import { MAX_MESSAGE_LENGTH } from "@/lib/shared/limits";
 import { NextRequest } from "next/server"
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest, ctx: ParamCtx<{chatId: string}>) {
 
     // TODO: Validate chat
     
-    const id = await sendMessage(chatId, {
+    const id = await createMessage(chatId, {
         uid: token!.uid,
         type: "user",
         content: content

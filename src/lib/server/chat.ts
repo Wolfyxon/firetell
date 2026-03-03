@@ -21,7 +21,7 @@ export type Message = MessageInit & {
     timestamp: number
 }
 
-export async function sendMessage(chatId: string, msg: MessageInit): Promise<string> {
+export async function createMessage(chatId: string, msg: MessageInit): Promise<string> {
     getFrbAdmin();
     const db = getDatabase();
 
