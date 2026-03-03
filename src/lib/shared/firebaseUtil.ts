@@ -8,6 +8,13 @@ export const FIREBASE_AUTH_ERRORS: Record<string, string> = {
 };
 
 export function getPublicFirebaseConfig(): FirebaseOptions {
+    const jsonEnv = process.env.NEXT_PUBLIC_FRB_PUBLIC;
+    
+    if(jsonEnv) {
+        const parsed = JSON.parse(jsonEnv);
+        return parsed;
+    }
+
     // This could be done nicer, but the values are replaced at compile time and you can't seem to get them dynamically
     return {
         apiKey: process.env.NEXT_PUBLIC_FRB_API_KEY,
