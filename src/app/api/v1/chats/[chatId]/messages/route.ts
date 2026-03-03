@@ -1,3 +1,4 @@
+import { sendMessage } from "@/lib/server/chat";
 import { errorRes, getRequestToken, ParamCtx } from "@/lib/server/serverUtil"
 import { MAX_MESSAGE_LENGTH } from "@/lib/shared/limits";
 import { NextRequest } from "next/server"
@@ -20,10 +21,15 @@ export async function POST(req: NextRequest, ctx: ParamCtx<{chatId: string}>) {
         return authErr;
     }
 
-    // TODO: Check if user is in the chat
-    // TODO: Send message
+    // TODO: Validate chat
+    
+    const id = await sendMessage(chatId, {
+        uid: token!.uid,
+        type: "user",
+        content: content
+    });
 
     return Response.json({
-        "success": true
+        "messageId": id
     });
 }
