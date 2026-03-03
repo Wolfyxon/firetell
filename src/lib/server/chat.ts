@@ -31,16 +31,13 @@ export async function sendMessage(chatId: string, msg: MessageInit): Promise<str
 
     const ref = db.ref(`chats/${chatId}/messages`);
 
-    const res = await ref.push({
+    const promise = ref.push({
         ...msg,
         timestamp: Date.now()
     } as Message);
 
-    if(!res.key) {
-        throw new Error("Key null");
-    }
-
-    return await res.key;
+    await promise;
+    return promise.key;
 }
 
 export async function createChat(chatInit: ChatInit): Promise<string> {
@@ -49,14 +46,10 @@ export async function createChat(chatInit: ChatInit): Promise<string> {
 
     const ref = db.ref(`chats`);
 
-    const res = await ref.push({
+    const promise = ref.push({
         ...chatInit,
         createdAt: Date.now()
     } as Chat);
 
-    if(!res.key) {
-        throw new Error("Key null");
-    }
-
-    return res.key;
+    return promise.key;
 }
