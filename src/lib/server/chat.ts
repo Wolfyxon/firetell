@@ -10,7 +10,8 @@ export type MessageInit = {
 }
 
 export type ChatInit = {
-    name?: string
+    name?: string,
+    members: string[]
 }
 
 export type Chat = ChatInit & {
