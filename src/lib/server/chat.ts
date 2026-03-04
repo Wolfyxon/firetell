@@ -30,7 +30,7 @@ export async function createMessage(chatId: string, msg: MessageInit): Promise<s
         throw new Error("Invalid chat ID");
     }
 
-    const ref = db.ref(`chats/${chatId}/messages`);
+    const ref = db.ref(`messages/${chatId}`);
 
     const promise = ref.push({
         ...msg,
