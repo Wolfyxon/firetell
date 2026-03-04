@@ -43,8 +43,8 @@ export async function createMessage(chatId: string, msg: MessageInit): Promise<s
 
 export async function createChat(chatInit: ChatInit): Promise<string> {
     getFrbAdmin();
-    const db = getDatabase();
 
+    const db = getDatabase();
     const ref = db.ref(`chats`);
 
     const promise = ref.push({
@@ -53,4 +53,17 @@ export async function createChat(chatInit: ChatInit): Promise<string> {
     } as Chat);
 
     return promise.key;
+}
+
+export async function getChatById(chatId: string): Promise<Chat | undefined> {
+    getFrbAdmin();
+
+    const db = getDatabase();
+    const res = await db.ref("chats").child(chatId).get()
+
+    if(!res.exists()) {
+        return;
+    }
+
+    return res.val() as Chat | undefined;
 }

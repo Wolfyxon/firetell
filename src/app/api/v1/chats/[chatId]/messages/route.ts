@@ -1,4 +1,4 @@
-import { createMessage } from "@/lib/server/chat";
+import { createMessage, getChatById } from "@/lib/server/chat";
 import { errorRes, getRequestToken, ParamCtx } from "@/lib/server/serverUtil"
 import { MAX_MESSAGE_LENGTH } from "@/lib/shared/limits";
 import { NextRequest } from "next/server"
@@ -21,8 +21,16 @@ export async function POST(req: NextRequest, ctx: ParamCtx<{chatId: string}>) {
         return authErr;
     }
 
-    // TODO: Validate chat
-    
+    const chat = await getChatById(chatId);
+
+    if(!chat) {
+        return errorRes(404, "Unknown chat");
+    }
+
+    if(!chat.members.includes(token!.uid)) {
+        return errorRes(403, "You're not a member of this chat");
+    }
+
     const id = await createMessage(chatId, {
         uid: token!.uid,
         type: "user",
