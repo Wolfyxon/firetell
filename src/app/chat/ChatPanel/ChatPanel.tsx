@@ -10,7 +10,7 @@ export default function ChatPanel() {
             </div>
             <div id="chat-controls">
                 <textarea
-                    className="input"
+                    className="input input-dark"
                     id="inp-message"
                     placeholder="Type your message..."
                 />

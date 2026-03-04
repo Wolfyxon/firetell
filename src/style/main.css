@@ -1,9 +1,11 @@
 :root {
     --color-main1: #dd5e2c;
     --color-main2: #ff8248;
-    
+
     --color-main-faded: #fcede7;
     
+    --color-error: #ff6767;
+
     --color-panel1: #3b3939;
     --color-panel2: #2b2929;
 
@@ -76,4 +78,26 @@ a:hover {
 
 .btn:active {
     opacity: 0.4;
+}
+
+.input-dark {
+    flex: 1;
+    font-size: 90%;
+    resize: none;
+    background-color: var(--color-panel2);
+    color: white;
+    border-color: var(--color-panel1)
+}
+
+.input-dark:focus {
+    background-color: var(--color-panel2);
+    border-color: var(--color-btn);
+}
+
+.flex {
+    display: flex;
+}
+
+.error {
+    color: var(--color-error);
 }
