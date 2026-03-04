@@ -1,5 +1,6 @@
 import { getDatabase } from "firebase-admin/database";
 import { getFrbAdmin } from "./firebaseAdmin";
+import { ChatInit, Chat } from "../shared/publicChat";
 
 export type MessageType = "user";
 
@@ -7,15 +8,6 @@ export type MessageInit = {
     uid?: string,
     type: MessageType,
     content: string
-}
-
-export type ChatInit = {
-    name?: string,
-    members: string[]
-}
-
-export type Chat = ChatInit & {
-    createdAt: number
 }
 
 export type Message = MessageInit & {
