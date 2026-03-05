@@ -1,15 +1,21 @@
 import "server-only";
-import { applicationDefault, getApp, initializeApp } from 'firebase-admin/app';
+import { applicationDefault, cert, getApp, initializeApp } from 'firebase-admin/app';
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 import { getPublicFirebaseConfig } from "../shared/firebaseUtil";
 
-export function getAdminFrbConfig() {
-    if(!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-        throw new Error("Missing GOOGLE_APPLICATION_CREDENTIALS env");
+export function getAdminFrbCredential() {
+    const str = process.env.FRB_ADMIN_CREDENTIAL;
+    
+    if(!str) {
+        throw new Error("Missing FRB__ADMIN_CREDENTIAL env");
     }
 
+    return JSON.parse(str);
+}
+
+export function getAdminFrbConfig() {
     return {
-        credential: applicationDefault(),
+        credential: cert(getAdminFrbCredential()),
         databaseURL: getPublicFirebaseConfig().databaseURL
     }
 }
