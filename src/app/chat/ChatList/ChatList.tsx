@@ -42,7 +42,7 @@ export default function ChatList() {
         <div id="chats">
             {
                 Object.entries(chats).map(
-                    ([id, chat]) => <ChatButton id={id} chat={chat} />
+                    ([id, chat]) => <ChatButton key={id} id={id} chat={chat} />
                 )
             }
         </div>
