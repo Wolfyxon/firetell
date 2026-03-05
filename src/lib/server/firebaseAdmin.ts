@@ -1,5 +1,5 @@
 import "server-only";
-import { applicationDefault, initializeApp } from 'firebase-admin/app';
+import { applicationDefault, getApp, initializeApp } from 'firebase-admin/app';
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 import { getPublicFirebaseConfig } from "../shared/firebaseUtil";
 
@@ -15,7 +15,11 @@ export function getAdminFrbConfig() {
 }
 
 export function getFrbAdmin() {
-    return initializeApp(getAdminFrbConfig());
+    try {
+        return getApp()
+    } catch {
+        return initializeApp(getAdminFrbConfig());
+    }
 }
 
 export async function decodeToken(idToken: string): Promise<DecodedIdToken | undefined> {
