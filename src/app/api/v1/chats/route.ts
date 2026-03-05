@@ -29,10 +29,25 @@ export async function POST(req: NextRequest) {
         return authError;
     }
 
-    try {
-        const usersRes = await getAuth().getUsers(members);
-    } catch {
-        return errorRes(400, "Invalid IDs");
+    const uids = [];
+
+    for(const identifier of members) {
+        try {
+            let uid: string;
+
+            if(identifier.includes("@")) {
+                const userRes = await getAuth().getUserByEmail(identifier);
+                uid = userRes.uid;
+            } else {
+                const userRes = await getAuth().getUser(identifier);
+                uid = userRes.uid;
+            }
+
+            uids.push(uid);
+        } catch(e) {
+            console.error(e)
+            return errorRes(400, "User not found");
+        }
     }
 
     const chatId = await createChat({
