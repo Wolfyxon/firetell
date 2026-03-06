@@ -16,10 +16,28 @@
 }
 
 #chat-messages {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    gap: 2px;
+    overflow-y: scroll;
 }
 
 #chat-controls {
     display: flex;
 }
 
+.msg {
+    background: var(--color-panel1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.msg-author {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.msg-content {
+    padding: 10px;
+}
