@@ -3,11 +3,10 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { Message } from "@/lib/server/chat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
-import { getAuth, User } from "firebase/auth";
-
-import "./style.css";
+import { getAuth } from "firebase/auth";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
 
+import "./style.css";
 
 function MessageComponent(props: {message: Message}) {
     const msg = props.message;
@@ -22,7 +21,31 @@ function MessageComponent(props: {message: Message}) {
     );
 }
 
-export default function ChatPanel(props: {currentChatId: string | null}) {
+export default function ChatMain(props: {currentChatId: string | null}) {
+    return (
+        <>
+            {props.currentChatId
+            ?
+                <ChatMainOpen currentChatId={props.currentChatId} />
+            :
+                <ChatMainNone />
+            }
+        </>
+    )
+}
+
+function ChatMainNone() {
+    return (
+        <div id="chat-none">
+            <h1>Firetell</h1>
+            <p>
+                Select or create a conversation on the left panel.
+            </p>
+        </div>
+    )
+}
+
+function ChatMainOpen(props: {currentChatId: string | null}) {
     const [msgInput, setMsgInput] = useState("");
     const [messages, setMessages] = useState<Message[]>([]);
 
