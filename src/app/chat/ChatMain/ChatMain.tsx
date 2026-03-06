@@ -81,7 +81,6 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
     }
 
     async function loadMessages() {
-        console.log("LOAD")
         const db = getDatabase();
 
         const q = query(
@@ -96,8 +95,8 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
                 snapshot.forEach((msg) => {
                     msgs.push(msg.val());
                 });
-
-                setMessages(msgs);
+                
+                setMessages(msgs.sort((a, b) => a.timestamp - b.timestamp));
             }, 
             (err) => {
                 console.error("Loading messages failed", err);
