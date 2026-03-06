@@ -68,7 +68,6 @@ export default function ChatPanel(props: {currentChatId: string | null}) {
         
         onValue(q, 
             (snapshot) => {
-                console.log("a")
                 const msgs: Message[] = [];
 
                 snapshot.forEach((msg) => {

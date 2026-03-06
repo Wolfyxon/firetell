@@ -55,17 +55,18 @@ export default function ChatList(props: {currentChatId: string | null, setCurren
 
         for(const id of chatIds) {
             const rf = ref(db, `/chats/${id}`);
-            console.log(id)
+
             onValue(rf, 
                 (snapshot) => {
                     setChats((chats) => {
+                        const newChats = {...chats};
                         if(snapshot.exists()) {
-                            chats[id] = snapshot.val();
+                            newChats[id] = snapshot.val();
                         } else {
-                            delete chats[id];
+                            delete newChats[id];
                         }
-
-                        return chats;
+                        
+                        return newChats;
                     });
                 },
                 (err) => {
