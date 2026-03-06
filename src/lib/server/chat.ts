@@ -67,11 +67,20 @@ export async function setChatMembers(chatId: string, members: Record<string, boo
     db.ref().update(updates);
 }
 
+export async function isChatMember(chatId: string, uid: string) {
+    getFrbAdmin();
+
+    const db = getDatabase();
+    const res = await db.ref(`users/${uid}/chatMembership/${chatId}`).get();
+
+    return res.exists();
+}
+
 export async function getChatById(chatId: string): Promise<Chat | undefined> {
     getFrbAdmin();
 
     const db = getDatabase();
-    const res = await db.ref("chats").child(chatId).get()
+    const res = await db.ref("chats").child(chatId).get();
 
     if(!res.exists()) {
         return;
