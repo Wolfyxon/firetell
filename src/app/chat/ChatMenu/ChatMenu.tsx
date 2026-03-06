@@ -2,10 +2,11 @@
 
 import { Dispatch, SubmitEvent, useState } from "react";
 import ChatList from "../ChatList/ChatList";
-
-import "./style.css";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { getAuth } from "firebase/auth";
+
+import "./style.css";
+import ImgButton from "@/comp/ImgButton/ImgButton";
 
 function ContactAdder() {
     const [input, setInput] = useState("");
@@ -86,7 +87,10 @@ function ContactAdder() {
 export default function ChatMenu(props: {currentChatId: string | null, setCurrentChatId: Dispatch<string | null>}) {
     return (
         <div id="menu">
-            <h1>Firetell</h1>
+            <div id="menu-header">
+                <h1>Firetell</h1>
+                <ImgButton src="/img/icons/settings.svg" title="Settings" />
+            </div>
 
             <ContactAdder />
             <ChatList currentChatId={props.currentChatId} setCurrentChatId={props.setCurrentChatId} />

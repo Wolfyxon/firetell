@@ -1,0 +1,26 @@
+.img-btn {
+    width: 3em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.img-btn:hover {
+    opacity: 0.8;
+}
+
+.img-btn:active {
+    opacity: 0.5;
+}
+
+.img-btn:hover img {
+    background: var(--color-btn);
+}
+
+.img-btn img {
+    background: transparent;
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+}
