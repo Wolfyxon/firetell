@@ -3,18 +3,18 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { Message } from "@/lib/server/chat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
-import { getAuth } from "firebase/auth";
+import { Auth, getAuth } from "firebase/auth";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
 
 import "./style.css";
 
-function MessageComponent(props: {message: Message}) {
+function MessageComponent(props: {message: Message, isOwn: boolean}) {
     const msg = props.message;
 
     // TODO: Resolve author name
 
     return (
-        <div className="msg">
+        <div className={`msg ` + (props.isOwn ? "own" : "")}>
             <div className="msg-author">{msg.uid}</div>
             <div className="msg-content">{msg.content}</div>
         </div>
@@ -48,6 +48,7 @@ function ChatMainNone() {
 function ChatMainOpen(props: {currentChatId: string | null}) {
     const [msgInput, setMsgInput] = useState("");
     const [messages, setMessages] = useState<Message[]>([]);
+    const [auth, setAuth] = useState<Auth | null>(null);
 
     function keydown(e: KeyboardEvent) {
         if(e.key == "Enter" && !e.shiftKey) {
@@ -107,6 +108,7 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
     useEffect(() => {
         getFrbApp();
         const auth = getAuth();
+        setAuth(auth);
 
         auth.onAuthStateChanged((user) => {
             if(user && props.currentChatId) {
@@ -119,7 +121,13 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
     return (
         <div id="chat-panel">
             <div id="chat-messages">
-                {messages.map((msg, i) => <MessageComponent key={i} message={msg}/>)}
+                {messages.map((msg, i) => 
+                    <MessageComponent
+                        key={i} 
+                        message={msg}
+                        isOwn={auth != null && auth.currentUser?.uid == msg.uid}
+                     />
+                )}
             </div>
             <div id="chat-controls">
                 <textarea
