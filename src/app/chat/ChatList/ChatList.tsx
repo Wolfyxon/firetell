@@ -14,7 +14,10 @@ function ChatButton(props: {
     setCurrentChatId: Dispatch<string | null>
 }) {
     return (
-        <div className="chat-entry" onClick={() => props.setCurrentChatId(props.id)}>
+        <div 
+            className={"chat-entry " + (props.id == props.currentChatId ? "current" : "")} 
+            onClick={() => props.setCurrentChatId(props.id)}
+        >
             <div className="chat-entry-text">
                 <div className="chat-name">{props.chat.name ?? "Unknown chat"}</div>
             </div>
