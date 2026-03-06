@@ -2,11 +2,12 @@
 
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { SubmitEvent, useState } from "react";
+import { SubmitEvent, useEffect, useState } from "react";
 import { FIREBASE_AUTH_ERRORS, getFrbApp } from "@/lib/shared/firebaseUtil";
 import { PublicPage } from "@/layouts/Page/PublicPage";
 
 import "@/style/signPage.css";
+import { LoggedInChatRedirect, redirectToChat } from "@/comp/functional/LoggedInChatRedirect";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ export default function LoginPage() {
 
         signInWithEmailAndPassword(auth, email, password).then(
             (res) => {
-                window.location.replace("/chat");
+                redirectToChat();
             },
             (err: FirebaseError) => {
                 setError(FIREBASE_AUTH_ERRORS[err.code] ?? "Unable to log in");
@@ -33,6 +34,8 @@ export default function LoginPage() {
 
     return (
         <PublicPage>
+            <LoggedInChatRedirect />
+
             <h1>Log in</h1>
             <div id="error">{error}</div>
             <form onSubmit={submit}>

@@ -1,5 +1,6 @@
 "use client"
 
+import { LoggedInChatRedirect } from "@/comp/functional/LoggedInChatRedirect";
 import { PublicPage } from "@/layouts/Page/PublicPage";
 import { FIREBASE_AUTH_ERRORS, getFrbApp } from "@/lib/shared/firebaseUtil";
 import "@/style/signPage.css";
@@ -43,6 +44,8 @@ export default function SignupPage() {
 
     return (
         <PublicPage>
+            <LoggedInChatRedirect />
+
             <h1>Sign up</h1>
             <div id="error">{error}</div>
 
