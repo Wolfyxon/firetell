@@ -1,6 +1,6 @@
 "use client"
 
-import { SubmitEvent, useState } from "react";
+import { Dispatch, SubmitEvent, useState } from "react";
 import ChatList from "../ChatList/ChatList";
 
 import "./style.css";
@@ -83,13 +83,13 @@ function ContactAdder() {
     )
 }
 
-export default function ChatMenu() {
+export default function ChatMenu(props: {currentChatId: string | null, setCurrentChatId: Dispatch<string | null>}) {
     return (
         <div id="menu">
             <h1>Firetell</h1>
 
             <ContactAdder />
-            <ChatList />
+            <ChatList currentChatId={props.currentChatId} setCurrentChatId={props.setCurrentChatId} />
         </div>
     )
 }

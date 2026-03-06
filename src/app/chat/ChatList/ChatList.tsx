@@ -1,15 +1,20 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import "./style.css";
 import { Chat } from "@/lib/shared/publicChat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { getDatabase, onValue, ref } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-function ChatButton(props: {id: string, chat: Chat}) {
+function ChatButton(props: {
+    id: string, 
+    chat: Chat,
+    currentChatId: string | null,
+    setCurrentChatId: Dispatch<string | null>
+}) {
     return (
-        <div className="chat-entry">
+        <div className="chat-entry" onClick={() => props.setCurrentChatId(props.id)}>
             <div className="chat-entry-text">
                 <div className="chat-name">{props.chat.name ?? "Unknown chat"}</div>
             </div>
@@ -17,8 +22,9 @@ function ChatButton(props: {id: string, chat: Chat}) {
     )
 }
 
-export default function ChatList() {
+export default function ChatList(props: {currentChatId: string | null, setCurrentChatId: Dispatch<string | null>}) {
     const [chats, setChats] = useState<Record<string, Chat>>({});
+    const [firstLaunch, setFirstLaunch] = useState(true);
 
     useEffect(() => {
         getFrbApp();
@@ -31,7 +37,19 @@ export default function ChatList() {
                 return;
             }
             
-            setChats(snapshot.val());
+            const chats = snapshot.val();
+            setChats(chats);
+
+            if(firstLaunch) {
+                const ids = Object.keys(chats);
+
+                if(ids.length != 0) {
+                    props.setCurrentChatId(ids[0]);
+                }
+
+                setFirstLaunch(false);
+            }
+
         }, (error) => {
             console.error(error)
         });
@@ -42,7 +60,14 @@ export default function ChatList() {
         <div id="chats">
             {
                 Object.entries(chats).map(
-                    ([id, chat]) => <ChatButton key={id} id={id} chat={chat} />
+                    ([id, chat]) => 
+                        <ChatButton 
+                            key={id} 
+                            id={id} 
+                            chat={chat}
+                            currentChatId={props.currentChatId}
+                            setCurrentChatId={props.setCurrentChatId} 
+                    />
                 )
             }
         </div>
