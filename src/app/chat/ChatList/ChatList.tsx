@@ -26,34 +26,69 @@ export default function ChatList(props: {currentChatId: string | null, setCurren
     const [chats, setChats] = useState<Record<string, Chat>>({});
     const [firstLaunch, setFirstLaunch] = useState(true);
 
-    useEffect(() => {
-        getFrbApp();
-
-        const rf = ref(getDatabase(), "/chats");
-        const auth = getAuth();
+    function loadChats(uid: string) {
+        const rf = ref(getDatabase(), `/users/${uid}/chatMembership`);
         
-        onValue(rf, (snapshot) => {
+        onValue(rf, async (snapshot) => {
             if(!snapshot.exists()) {
                 return;
             }
             
-            const chats = snapshot.val();
-            setChats(chats);
+            const chatIds = Object.keys(snapshot.val());
+            await loadChatsFromIds(chatIds);
 
             if(firstLaunch) {
-                const ids = Object.keys(chats);
-
-                if(ids.length != 0) {
-                    props.setCurrentChatId(ids[0]);
+                if(chatIds.length != 0) {
+                    props.setCurrentChatId(chatIds[0]);
                 }
-
-                setFirstLaunch(false);
             }
 
         }, (error) => {
-            console.error(error)
+            console.error("Error getting chat IDs", error)
         });
 
+        setFirstLaunch(false);
+    }
+
+    function loadChatsFromIds(chatIds: string[]) {
+        const db = getDatabase();
+
+        for(const id of chatIds) {
+            const rf = ref(db, `/chats/${id}`);
+            console.log(id)
+            onValue(rf, 
+                (snapshot) => {
+                    setChats((chats) => {
+                        if(snapshot.exists()) {
+                            chats[id] = snapshot.val();
+                        } else {
+                            delete chats[id];
+                        }
+
+                        return chats;
+                    });
+                },
+                (err) => {
+                    console.error(`Failed loading chat ${id}:`, err)
+                }
+            );
+        }
+    }
+
+    useEffect(() => {
+        getFrbApp();
+
+        const auth = getAuth();
+
+        auth.onAuthStateChanged(
+            (user) => {
+                if(!user) {
+                    return;
+                }
+
+                loadChats(user.uid);
+            }
+        )
     }, []);
 
     return (

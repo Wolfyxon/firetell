@@ -3,6 +3,7 @@ export type ChatInit = {
     members: Record<string, boolean>
 }
 
-export type Chat = ChatInit & {
+export type Chat = {
+    name?: string,
     createdAt: number
 }

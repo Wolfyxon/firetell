@@ -39,12 +39,32 @@ export async function createChat(chatInit: ChatInit): Promise<string> {
     const db = getDatabase();
     const ref = db.ref(`chats`);
 
-    const promise = ref.push({
-        ...chatInit,
+    const data: Chat = {
         createdAt: Date.now()
-    } as Chat);
+    };
+
+    if(chatInit.name) { // firebase doesnt like undefined
+        data.name = chatInit.name;
+    }
+
+    const promise = ref.push();
+
+    await setChatMembers(promise.key, chatInit.members);
 
     return promise.key;
+}
+
+export async function setChatMembers(chatId: string, members: Record<string, boolean>) {
+    getFrbAdmin();
+
+    const db = getDatabase();
+    const updates: any = {};
+
+    for(const [uid, val] of Object.entries(members)) {
+        updates[`/users/${uid}/chatMembership/${chatId}`] = val;
+    }
+
+    db.ref().update(updates);
 }
 
 export async function getChatById(chatId: string): Promise<Chat | undefined> {

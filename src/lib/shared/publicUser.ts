@@ -2,5 +2,6 @@
 export type UserRole = "user" | "admin";
 
 export interface UserMeta {
-    role: UserRole
-}
+    role: UserRole,
+    chatMembership: Record<string, boolean>
+};
