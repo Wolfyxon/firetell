@@ -1,6 +1,6 @@
 export type ChatInit = {
     name?: string,
-    members: string[]
+    members: Record<string, boolean>
 }
 
 export type Chat = ChatInit & {

@@ -43,7 +43,7 @@ function ContactAdder() {
 
     async function sendAdd(token: string): Promise<string | undefined> {
         const body = {
-            members: [input]
+            members: {[input]: true}
         };
 
         const res = await fetch("/api/v1/chats", {

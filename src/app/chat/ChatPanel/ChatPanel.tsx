@@ -58,15 +58,17 @@ export default function ChatPanel(props: {currentChatId: string | null}) {
     }
 
     async function loadMessages() {
+        console.log("LOAD")
         const db = getDatabase();
 
         const q = query(
-             ref(db, `/chats/${props.currentChatId}`),
+             ref(db, `/messages/${props.currentChatId}`),
              orderByChild("timestamp")
         )
         
         onValue(q, 
             (snapshot) => {
+                console.log("a")
                 const msgs: Message[] = [];
 
                 snapshot.forEach((msg) => {
