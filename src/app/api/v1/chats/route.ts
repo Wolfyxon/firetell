@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     }
 
     const chatId = await createChat({
-        members: members
+        members: uids
     });
 
     return Response.json({
