@@ -1,7 +1,7 @@
 "use client"
 
 import Page from "@/layouts/Page/Page";
-import ChatPanel from "./ChatPanel/ChatPanel";
+import ChatMain from "./ChatMain/ChatMain";
 import ChatMenu from "./ChatMenu/ChatMenu";
 
 import "./style.css";
@@ -14,7 +14,7 @@ export default function ChatPage() {
         <Page>
             <div id="sides">
                 <ChatMenu currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} />
-                <ChatPanel currentChatId={currentChatId} />
+                <ChatMain currentChatId={currentChatId} />
             </div>
         </Page>
     );
