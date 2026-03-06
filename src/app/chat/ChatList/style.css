@@ -6,7 +6,7 @@
 }
 
 .chat-entry {
-    background: var(--color-panel2);
+    background: var(--color-panel3);
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;

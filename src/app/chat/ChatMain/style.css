@@ -47,7 +47,7 @@
 }
 
 .msg {
-    background: var(--color-panel1);
+    background: var(--color-panel2);
     padding: 10px;
     border-radius: 10px;
 }
