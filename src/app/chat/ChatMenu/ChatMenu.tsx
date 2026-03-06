@@ -7,6 +7,7 @@ import { getAuth } from "firebase/auth";
 
 import "./style.css";
 import ImgButton from "@/comp/ImgButton/ImgButton";
+import Settings from "../Settings/Settings";
 
 function ContactAdder() {
     const [input, setInput] = useState("");
@@ -87,6 +88,7 @@ function ContactAdder() {
 export default function ChatMenu(props: {currentChatId: string | null, setCurrentChatId: Dispatch<string | null>}) {
     return (
         <div id="menu">
+            <Settings />
             <div id="menu-header">
                 <h1>Firetell</h1>
                 <ImgButton src="/img/icons/settings.svg" title="Settings" />
