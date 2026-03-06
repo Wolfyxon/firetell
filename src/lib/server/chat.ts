@@ -47,7 +47,7 @@ export async function createChat(chatInit: ChatInit): Promise<string> {
         data.name = chatInit.name;
     }
 
-    const promise = ref.push();
+    const promise = ref.push(data);
 
     await setChatMembers(promise.key, chatInit.members);
 
