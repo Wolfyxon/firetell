@@ -47,7 +47,7 @@ export namespace api {
     }
 
     export async function getUserInfo(id: string): Promise<UserResponse> {
-        const res = await fetch(API_URL + id);
+        const res = await fetch(API_URL + "/users/" + id);
         const json = await res.json();
 
         if(json.error) {
