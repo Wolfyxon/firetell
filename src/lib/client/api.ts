@@ -1,10 +1,15 @@
+import { cache } from "react";
+import { UserResponse } from "../shared/publicUser";
+
+const API_URL = "/api/v1/";
+
 export namespace api {
     export async function sendMessage(token: string, chatId: string, content: string) {
         const body = {
             content: content
         };
 
-        return await fetch(`/api/v1/chats/${chatId}/messages`, {
+        return await fetch(API_URL + `chats/${chatId}/messages`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
@@ -24,7 +29,7 @@ export namespace api {
             memberDict
         };
 
-        const res = await fetch("/api/v1/chats", {
+        const res = await fetch(API_URL + "chats", {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
@@ -40,4 +45,17 @@ export namespace api {
 
         return;
     }
+
+    export async function getUserInfo(id: string): Promise<UserResponse> {
+        const res = await fetch(API_URL + id);
+        const json = await res.json();
+
+        if(json.error) {
+            throw new Error(json.error.message);
+        }
+
+        return json as UserResponse;
+    }
+
+    export const getUserInfoCached = cache(getUserInfo);
 }
