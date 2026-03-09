@@ -1,5 +1,8 @@
 import ImgButton from "@/comp/ImgButton/ImgButton";
 import "./style.css";
+import { SubmitEvent, useEffect, useState } from "react";
+import { Auth, getAuth, updateProfile } from "firebase/auth";
+import { getFrbApp } from "@/lib/shared/firebaseUtil";
 
 export default function Settings() {
     return (<>
@@ -13,17 +16,78 @@ export default function Settings() {
                 </div>
 
                 <h2>Account</h2>
-                <form className="flex">
-                    <input 
-                        type="text" 
-                        className="input input-dark" 
-                        id="inp-display-name"
-                        placeholder="Enter new display name..." 
-                    />
-                    <button className="btn btn-primary">Change name</button>
-                </form>
+               <ChangeNameForm />
             </div>
         </div>
          
     </>)
+}
+
+function ChangeNameForm() {
+    const [error, setError] = useState("");
+    const [name, setName] = useState("");
+    const [auth, setAuth] = useState<Auth | null>(null);
+
+    function submit(e: SubmitEvent) {
+        e.preventDefault();
+
+        if(!auth) {
+            setError("Auth not available");
+            return;
+        }
+
+        auth.onAuthStateChanged(
+            user => {
+                if(!user) {
+                    setError("You're not logged in");
+                    return;
+                }
+
+                updateProfile(user, {
+                    displayName: name
+                }).then(
+                    _ => {
+                        console.log("Name changed successfully");
+                    },
+                    err => {
+                        setError("Failed to update name");
+                        console.error(err);
+                    }
+                );
+            },
+            err => {
+                setError("Failed to get current user");
+                console.error(err);
+            }
+        )
+    }
+
+    useEffect(() => {
+        getFrbApp();
+        const auth = getAuth();
+        setAuth(auth);
+
+        auth.onAuthStateChanged(
+            user => {
+                if(user) {
+                    setName(user.displayName || "");
+                }
+            }
+        )
+    }, []);
+
+    return (
+         <form className="flex" onSubmit={submit}>
+            <div className="error">{error}</div>
+            <input
+                type="text" 
+                className="input input-dark" 
+                id="inp-display-name"
+                placeholder="Enter new display name..."
+                value={name}
+                onChange={e => setName(e.target.value)}
+            />
+            <button className="btn btn-primary">Change name</button>
+        </form>
+    )
 }
