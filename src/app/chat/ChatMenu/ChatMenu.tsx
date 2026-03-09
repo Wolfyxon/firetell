@@ -43,7 +43,7 @@ function ContactAdder() {
         try {
             api.createChat(token, [input]);
         } catch(e) {
-
+            setError((e as Error).message);
         }
     }
 
