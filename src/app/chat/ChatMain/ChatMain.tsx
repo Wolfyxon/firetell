@@ -8,13 +8,16 @@ import { getDatabase, onValue, orderByChild, query, ref } from "firebase/databas
 import { api } from "@/lib/client/api";
 
 import "./style.css";
+import { clientCache } from "@/lib/client/cache";
 
 function MessageComponent(props: {message: Message, isOwn: boolean}) {
     const msg = props.message;
     const [userName, setUserName] = useState(msg.uid);
-    
+
+    const getUserInfo = clientCache(api.getUserInfo);
+
     useEffect(() => {
-        api.getUserInfoCached(msg.uid!).then(
+        getUserInfo(msg.uid!).then(
             userData => {
                 if(userData.displayName) {
                     setUserName(userData.displayName);

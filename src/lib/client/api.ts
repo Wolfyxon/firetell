@@ -1,4 +1,3 @@
-import { cache } from "react";
 import { UserResponse } from "../shared/publicUser";
 
 const API_URL = "/api/v1/";
@@ -56,6 +55,4 @@ export namespace api {
 
         return json as UserResponse;
     }
-
-    export const getUserInfoCached = cache(getUserInfo);
 }
