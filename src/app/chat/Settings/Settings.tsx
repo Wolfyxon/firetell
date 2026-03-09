@@ -1,14 +1,30 @@
 import ImgButton from "@/comp/ImgButton/ImgButton";
 import "./style.css";
-import { Dispatch, SubmitEvent, useEffect, useState } from "react";
+import { Dispatch, KeyboardEvent, MouseEvent, SubmitEvent, useEffect, useState } from "react";
 import { Auth, getAuth, updateProfile } from "firebase/auth";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 
 export default function Settings(props: { visible: boolean, setVisible: Dispatch<boolean> }) {
+    function click(e: MouseEvent) {
+        const target = e.target as HTMLElement;
+        
+        if(target.id == "settings-container") {
+            props.setVisible(false);
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener("keydown", (e) => {
+            if(e.key == "Escape") {
+                props.setVisible(false);
+            }
+        });
+    }, []);
+
     return (
         <div id="settings-root" className={props.visible ? "visible" : ""}>
             <div id="settings-shadow"></div>
-            <div id="settings-container">
+            <div id="settings-container" onClick={click}>
                 <div id="settings">
                     <div id="settings-header">
                         <h1>Settings</h1>
