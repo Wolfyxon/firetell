@@ -5,18 +5,30 @@ import { Message } from "@/lib/server/chat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { Auth, getAuth, getIdToken } from "firebase/auth";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
+import { api } from "@/lib/client/api";
 
 import "./style.css";
-import { api } from "@/lib/client/api";
 
 function MessageComponent(props: {message: Message, isOwn: boolean}) {
     const msg = props.message;
-
-    // TODO: Resolve author name
+    const [userName, setUserName] = useState(msg.uid);
+    
+    useEffect(() => {
+        api.getUserInfoCached(msg.uid!).then(
+            userData => {
+                if(userData.displayName) {
+                    setUserName(userData.displayName);
+                }
+            },
+            err => {
+                console.error("Failed to get user", msg.uid, err);
+            }
+        )
+    }, []);
 
     return (
         <div className={`msg ` + (props.isOwn ? "own" : "")}>
-            <div className="msg-author">{msg.uid}</div>
+            <div className="msg-author">{userName ?? msg.uid}</div>
             <div className="msg-content">{msg.content}</div>
         </div>
     );
