@@ -3,10 +3,11 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { Message } from "@/lib/server/chat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
-import { Auth, getAuth } from "firebase/auth";
+import { Auth, getAuth, getIdToken } from "firebase/auth";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
 
 import "./style.css";
+import { api } from "@/lib/client/api";
 
 function MessageComponent(props: {message: Message, isOwn: boolean}) {
     const msg = props.message;
@@ -67,18 +68,9 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
         setMsgInput("");
 
         const auth = getAuth();
+        const token = await auth.currentUser!.getIdToken();
 
-        const body = {
-            content: content
-        };
-
-        const res = await fetch(`/api/v1/chats/${props.currentChatId}/messages`, {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-                "Authorization": await auth.currentUser!.getIdToken()
-            }
-        });
+        api.sendMessage(token, props.currentChatId!, content);
     }
 
     async function loadMessages() {

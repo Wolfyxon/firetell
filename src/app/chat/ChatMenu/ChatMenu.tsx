@@ -9,6 +9,7 @@ import ImgButton from "@/comp/ImgButton/ImgButton";
 import Settings from "../Settings/Settings";
 
 import "./style.css";
+import { api } from "@/lib/client/api";
 
 function ContactAdder() {
     const [input, setInput] = useState("");
@@ -29,13 +30,7 @@ function ContactAdder() {
 
         auth.currentUser.getIdToken().then(
             async token => {
-                const err = await sendAdd(token);
-
-                if(err) {
-                    setError(err);
-                } else {
-                    setInput("");
-                }
+                await sendAdd(token);
             },
             err => {
                 setError("Failed to get auth token");
@@ -44,26 +39,12 @@ function ContactAdder() {
         )   
     }
 
-    async function sendAdd(token: string): Promise<string | undefined> {
-        const body = {
-            members: {[input]: true}
-        };
+    async function sendAdd(token: string) {
+        try {
+            api.createChat(token, [input]);
+        } catch(e) {
 
-        const res = await fetch("/api/v1/chats", {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-                "Authorization": token
-            }
-        });
-
-        const json = await res.json();
-
-        if(json.error) {
-            return json.error.message;
         }
-
-        return;
     }
 
     return (
