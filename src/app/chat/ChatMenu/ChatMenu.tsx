@@ -86,12 +86,14 @@ function ContactAdder() {
 }
 
 export default function ChatMenu(props: {currentChatId: string | null, setCurrentChatId: Dispatch<string | null>}) {
+    const [settingsVisible, setSettingsVisible] = useState(false);
+
     return (
         <div id="menu">
-            <Settings />
+            <Settings visible={settingsVisible} setVisible={setSettingsVisible} />
             <div id="menu-header">
                 <h1>Firetell</h1>
-                <ImgButton src="/img/icons/settings.svg" title="Settings" />
+                <ImgButton src="/img/icons/settings.svg" title="Settings" onClick={() => setSettingsVisible(true)} />
             </div>
 
             <ContactAdder />

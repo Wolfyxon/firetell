@@ -1,26 +1,27 @@
 import ImgButton from "@/comp/ImgButton/ImgButton";
 import "./style.css";
-import { SubmitEvent, useEffect, useState } from "react";
+import { Dispatch, SubmitEvent, useEffect, useState } from "react";
 import { Auth, getAuth, updateProfile } from "firebase/auth";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 
-export default function Settings() {
-    return (<>
-        
-        <div id="settings-shadow"></div>
-        <div id="settings-container">
-            <div id="settings">
-                <div id="settings-header">
-                    <h1>Settings</h1>
-                    <ImgButton src="/img/icons/x.svg" title="Close"/>
-                </div>
+export default function Settings(props: { visible: boolean, setVisible: Dispatch<boolean> }) {
+    return (
+        <div id="settings-root" className={props.visible ? "visible" : ""}>
+            <div id="settings-shadow"></div>
+            <div id="settings-container">
+                <div id="settings">
+                    <div id="settings-header">
+                        <h1>Settings</h1>
+                        <ImgButton src="/img/icons/x.svg" title="Close" onClick={() => props.setVisible(false)}/>
+                    </div>
 
-                <h2>Account</h2>
-               <ChangeNameForm />
+                    <h2>Account</h2>
+                <ChangeNameForm />
+                </div>
             </div>
+            
         </div>
-         
-    </>)
+    );
 }
 
 function ChangeNameForm() {
