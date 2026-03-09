@@ -37,7 +37,7 @@ export default function LoginPage() {
             <LoggedInChatRedirect />
 
             <h1>Log in</h1>
-            <div id="error">{error}</div>
+            <div className="error">{error}</div>
             <form onSubmit={submit}>
                 <label htmlFor="inp-mail">E-mail:</label>
                 <input

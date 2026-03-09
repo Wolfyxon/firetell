@@ -47,7 +47,7 @@ export default function SignupPage() {
             <LoggedInChatRedirect />
 
             <h1>Sign up</h1>
-            <div id="error">{error}</div>
+            <div className="error">{error}</div>
 
             <form onSubmit={submit}>
                 <label htmlFor="inp-mail">E-mail:</label>
