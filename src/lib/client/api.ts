@@ -25,7 +25,7 @@ export namespace api {
         }
 
         const body = {
-            memberDict
+            members: memberDict
         };
 
         const res = await fetch(API_URL + "chats", {
