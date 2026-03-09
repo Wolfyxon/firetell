@@ -1,13 +1,14 @@
 "use client"
 
 import { Dispatch, SubmitEvent, useState } from "react";
-import ChatList from "../ChatList/ChatList";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { getAuth } from "firebase/auth";
 
-import "./style.css";
+import ChatList from "../ChatList/ChatList";
 import ImgButton from "@/comp/ImgButton/ImgButton";
 import Settings from "../Settings/Settings";
+
+import "./style.css";
 
 function ContactAdder() {
     const [input, setInput] = useState("");

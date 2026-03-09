@@ -1,11 +1,12 @@
 "use client"
 
 import { Dispatch, useEffect, useState } from "react";
-import "./style.css";
 import { Chat } from "@/lib/shared/publicChat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { getDatabase, onValue, ref } from "firebase/database";
 import { getAuth } from "firebase/auth";
+
+import "./style.css";
 
 function ChatButton(props: {
     id: string, 
