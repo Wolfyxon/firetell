@@ -18,7 +18,10 @@ export async function POST(req: NextRequest) {
     }
 
     const identifiers = Object.keys(members);
-    const uids: Record<string, boolean> = {};
+    
+    const uids: Record<string, boolean> = {
+        [token!.uid]: true
+    };
 
     if(identifiers.length == 0) {
         return errorRes(400, "'members' cannot be empty");
