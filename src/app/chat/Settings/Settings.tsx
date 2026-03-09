@@ -7,7 +7,7 @@ export default function Settings() {
         <div id="settings-shadow"></div>
         <div id="settings-container">
             <div id="settings">
-                <div id="settings-header" className="flex">
+                <div id="settings-header">
                     <h1>Settings</h1>
                     <ImgButton src="/img/icons/x.svg" title="Close"/>
                 </div>
