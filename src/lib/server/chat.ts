@@ -1,5 +1,5 @@
 import { getDatabase } from "firebase-admin/database";
-import { getFrbAdmin } from "./firebaseAdmin";
+import { getFrbAdmin, isKeyInputSafe } from "./firebaseAdmin";
 import { ChatInit, Chat } from "../shared/publicChat";
 
 export type MessageType = "user";
@@ -15,10 +15,15 @@ export type Message = MessageInit & {
 }
 
 export async function createMessage(chatId: string, msg: MessageInit): Promise<string> {
+    if(!isKeyInputSafe(chatId)) {
+        throw `chatId '${chatId}' contains illegal characters`;
+    }
+
+
     getFrbAdmin();
     const db = getDatabase();
 
-    if(chatId.includes("/") || chatId.includes("..")) {
+    if(!isKeyInputSafe(chatId)) {
         throw new Error("Invalid chat ID");
     }
 
@@ -55,6 +60,10 @@ export async function createChat(chatInit: ChatInit): Promise<string> {
 }
 
 export async function clearChat(chatId: string): Promise<void> {
+    if(!isKeyInputSafe(chatId)) {
+        throw `chatId '${chatId}' contains illegal characters`;
+    }
+
     getFrbAdmin();
     const db = getDatabase();
 
@@ -76,6 +85,10 @@ export async function setChatMembers(chatId: string, members: Record<string, boo
 }
 
 export async function isChatMember(chatId: string, uid: string) {
+    if(!isKeyInputSafe(chatId)) {
+        throw `chatId '${chatId}' contains illegal characters`;
+    }
+
     getFrbAdmin();
 
     const db = getDatabase();
@@ -85,6 +98,10 @@ export async function isChatMember(chatId: string, uid: string) {
 }
 
 export async function getChatById(chatId: string): Promise<Chat | undefined> {
+    if(!isKeyInputSafe(chatId)) {
+        throw `chatId '${chatId}' contains illegal characters`;
+    }
+    
     getFrbAdmin();
 
     const db = getDatabase();

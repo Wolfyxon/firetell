@@ -3,6 +3,10 @@ import { applicationDefault, cert, getApp, initializeApp } from 'firebase-admin/
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 import { getPublicFirebaseConfig } from "../shared/firebaseUtil";
 
+export function isKeyInputSafe(key: string): boolean {
+    return !key.includes("/") && !key.includes("..");
+}
+
 export function getAdminFrbCredential() {
     const str = process.env.FRB_ADMIN_CREDENTIAL;
     
