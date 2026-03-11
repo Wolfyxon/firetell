@@ -1,6 +1,6 @@
 "use client"
 
-import { KeyboardEvent, useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Message } from "@/lib/server/chat";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { Auth, getAuth, getIdToken } from "firebase/auth";
@@ -72,6 +72,8 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [auth, setAuth] = useState<Auth | null>(null);
 
+    const listRef = useRef<HTMLDivElement>(null);
+
     function keydown(e: KeyboardEvent) {
         if(e.key == "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -118,6 +120,15 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
         )
     }
 
+        
+    useEffect(() => {
+        const list = listRef.current!;
+        
+        if(list.scrollTop == 0 || list.scrollTop >= list.scrollHeight * 0.5) {
+            list.scrollTop = list.scrollHeight;
+        }
+    }, [messages]);
+
     useEffect(() => {
         getFrbApp();
         const auth = getAuth();
@@ -133,7 +144,7 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
 
     return (
         <div id="chat-panel">
-            <div id="chat-messages">
+            <div id="chat-messages" ref={listRef}>
                 {messages.map((msg, i) => 
                     <MessageComponent
                         key={`${msg.timestamp}-${msg.uid}`}
