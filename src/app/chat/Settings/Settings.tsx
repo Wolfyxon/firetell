@@ -1,8 +1,9 @@
-import ImgButton from "@/comp/ImgButton/ImgButton";
 import "./style.css";
-import { Dispatch, KeyboardEvent, MouseEvent, SubmitEvent, useEffect, useState } from "react";
+
+import { Dispatch, MouseEvent, SubmitEvent, useEffect, useState } from "react";
 import { Auth, getAuth, updateProfile } from "firebase/auth";
 import { getFrbApp } from "@/lib/shared/firebaseUtil";
+import ImgButton from "@/comp/ImgButton/ImgButton";
 
 export default function Settings(props: { visible: boolean, setVisible: Dispatch<boolean> }) {
     function click(e: MouseEvent) {
