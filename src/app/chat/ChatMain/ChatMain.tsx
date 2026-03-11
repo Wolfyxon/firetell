@@ -132,7 +132,7 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
                     <MessageComponent
                         key={i} 
                         message={msg}
-                        isOwn={auth != null && auth.currentUser?.uid == msg.uid}
+                        isOwn={auth != null && msg.uid !== undefined && auth.currentUser?.uid == msg.uid}
                      />
                 )}
             </div>
