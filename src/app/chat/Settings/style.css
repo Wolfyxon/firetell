@@ -47,6 +47,8 @@
     height: 700px;
     width: 1200px;
     max-width: 95vw;
+    max-height: 95vh;
+    overflow-y: scroll;
     scale: 0.6;
     transition: 0.15s;
 }
