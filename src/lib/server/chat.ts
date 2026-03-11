@@ -54,6 +54,14 @@ export async function createChat(chatInit: ChatInit): Promise<string> {
     return promise.key;
 }
 
+export async function clearChat(chatId: string): Promise<void> {
+    getFrbAdmin();
+    const db = getDatabase();
+
+    const ref = db.ref(`messages/${chatId}`);
+    await ref.set({});
+}
+
 export async function setChatMembers(chatId: string, members: Record<string, boolean>) {
     getFrbAdmin();
 

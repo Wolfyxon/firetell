@@ -1,4 +1,5 @@
 import { createMessage, getChatById, isChatMember } from "@/lib/server/chat";
+import { execCommand, isCommand } from "@/lib/server/chatCommands";
 import { errorRes, getRequestToken, ParamCtx } from "@/lib/server/serverUtil"
 import { MAX_MESSAGE_LENGTH } from "@/lib/shared/limits";
 import { NextRequest } from "next/server"
@@ -29,6 +30,14 @@ export async function POST(req: NextRequest, ctx: ParamCtx<{chatId: string}>) {
 
     if(!(await isChatMember(chatId, token!.uid))) {
         return errorRes(403, "You're not a member of this chat");
+    }
+
+    if(isCommand(content)) {
+        await execCommand(token!.uid, chatId, content);
+
+        return Response.json({
+            "commandResult": {}
+        });
     }
     
     const id = await createMessage(chatId, {
