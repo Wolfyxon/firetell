@@ -1,3 +1,4 @@
+import { getChatById } from "../server/chat";
 import { UserResponse } from "../shared/publicUser";
 
 const API_URL = "/api/v1/";
@@ -41,8 +42,6 @@ export namespace api {
         if(json.error) {
             throw new Error(json.error.message);
         }
-
-        return;
     }
 
     export async function getUserInfo(id: string): Promise<UserResponse> {
@@ -55,4 +54,6 @@ export namespace api {
 
         return json as UserResponse;
     }
+
+
 }

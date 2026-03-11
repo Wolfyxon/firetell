@@ -30,7 +30,7 @@ function MessageComponent(props: {message: Message, isOwn: boolean}) {
     }, []);
 
     return (
-        <div className={`msg ` + (props.isOwn ? "own" : "")}>
+        <div className={`msg ` + (props.isOwn ? "own" : "")} data-uid={msg.uid}>
             <div className="msg-author">{userName ?? msg.uid}</div>
             <div className="msg-content">{msg.content}</div>
         </div>
