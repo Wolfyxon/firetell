@@ -1,4 +1,4 @@
-import { getFrbAdmin, isKeyInputSafe } from "@/lib/server/firebaseAdmin";
+import { getFrbAdmin, isKeyInputSafe, stripUserInfo } from "@/lib/server/firebaseAdmin";
 import { errorRes, ParamCtx } from "@/lib/server/serverUtil";
 import { UserResponse } from "@/lib/shared/publicUser";
 import { getAuth } from "firebase-admin/auth";
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest, ctx: ParamCtx<{uids: string}>) {
 
             try {
                 const user = await auth.getUser(uid);
-                res[uid] = user;
+                res[uid] = stripUserInfo(user);
             } catch {
                 res[uid] = null;
             }
@@ -51,10 +51,7 @@ export async function GET(req: NextRequest, ctx: ParamCtx<{uids: string}>) {
             
             const userRes = await auth.getUser(uids);
 
-            return Response.json({
-                uid: userRes.uid,
-                displayName: userRes.displayName
-            } as UserResponse);
+            return Response.json(stripUserInfo(userRes));
         } catch(e) {
             //console.error(e)
             return errorRes(404, "User not found");

@@ -1,7 +1,9 @@
 import "server-only";
 import { applicationDefault, cert, getApp, initializeApp } from 'firebase-admin/app';
-import { DecodedIdToken, getAuth } from "firebase-admin/auth";
+import { DecodedIdToken, getAuth, UserRecord } from "firebase-admin/auth";
 import { getPublicFirebaseConfig } from "../shared/firebaseUtil";
+import { User } from "firebase/auth";
+import { UserResponse } from "../shared/publicUser";
 
 export function isKeyInputSafe(key: string): boolean {
     return !key.includes("/") && !key.includes("..");
@@ -41,4 +43,11 @@ export async function decodeToken(idToken: string): Promise<DecodedIdToken | und
     } catch {
         return
     }
+}
+
+export function stripUserInfo(user: User | UserRecord): UserResponse {
+    return {
+        uid: user.uid,
+        displayName: user.displayName
+    };
 }

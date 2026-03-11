@@ -7,6 +7,6 @@ export type UserMeta = {
 };
 
 export type UserResponse = {
-    displayName?: string,
+    displayName?: string | null,
     uid: string
 };
