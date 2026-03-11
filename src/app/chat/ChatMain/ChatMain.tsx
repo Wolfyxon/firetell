@@ -130,7 +130,7 @@ function ChatMainOpen(props: {currentChatId: string | null}) {
             <div id="chat-messages">
                 {messages.map((msg, i) => 
                     <MessageComponent
-                        key={i} 
+                        key={`${msg.timestamp}-${msg.uid}`}
                         message={msg}
                         isOwn={auth != null && msg.uid !== undefined && auth.currentUser?.uid == msg.uid}
                      />
