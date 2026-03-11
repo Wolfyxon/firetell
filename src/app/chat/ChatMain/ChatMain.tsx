@@ -6,9 +6,9 @@ import { getFrbApp } from "@/lib/shared/firebaseUtil";
 import { Auth, getAuth, getIdToken } from "firebase/auth";
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
 import { api } from "@/lib/client/api";
+import { clientCache } from "@/lib/client/cache";
 
 import "./style.css";
-import { clientCache } from "@/lib/client/cache";
 
 function MessageComponent(props: {message: Message, isOwn: boolean}) {
     const msg = props.message;
@@ -29,9 +29,15 @@ function MessageComponent(props: {message: Message, isOwn: boolean}) {
         )
     }, []);
 
+    const date = new Date(msg.timestamp);
+    const timeStr = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ` + date.toDateString()
+
     return (
         <div className={`msg ` + (props.isOwn ? "own" : "")} data-uid={msg.uid}>
-            <div className="msg-author">{userName ?? msg.uid}</div>
+            <div className="msg-header">
+                <div className="msg-author">{userName ?? msg.uid}</div>
+                <div className="msg-time">{timeStr}</div>
+            </div>
             <div className="msg-content">{msg.content}</div>
         </div>
     );

@@ -52,6 +52,15 @@
     border-radius: 10px;
 }
 
+.msg-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.msg-time {
+    color: gray;
+}
+
 .msg.own .msg-author {
     color: var(--color-main2);
 }
