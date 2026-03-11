@@ -75,7 +75,11 @@ export default function ChatMenu(props: {currentChatId: string | null, setCurren
             <Settings visible={settingsVisible} setVisible={setSettingsVisible} />
             <div id="menu-header">
                 <h1>Firetell</h1>
-                <ImgButton src="/img/icons/settings.svg" title="Settings" onClick={() => setSettingsVisible(true)} />
+                <div className="flex">
+                    <ImgButton src="/img/icons/settings.svg" title="Settings" onClick={() => setSettingsVisible(true)} />
+                    <ImgButton src="/img/icons/logout.svg" title="Log out" href="/logout" />
+                
+                </div>
             </div>
 
             <ContactAdder />
