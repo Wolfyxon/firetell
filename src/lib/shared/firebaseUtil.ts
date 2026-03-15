@@ -4,7 +4,8 @@ require('firebase/auth')
 
 export const FIREBASE_AUTH_ERRORS: Record<string, string> = {
     "auth/invalid-email": "Invalid e-mail format",
-    "auth/invalid-credential": "Invalid e-mail or password"
+    "auth/invalid-credential": "Invalid e-mail or password",
+    "auth/user-disabled": "Account is disabled"
 };
 
 export function getPublicFirebaseConfig(): FirebaseOptions {
