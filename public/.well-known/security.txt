@@ -1,0 +1,3 @@
+Contact: wolfyxon@gmail.com
+Encryption: https://wolfyxon.github.io/resources/publicKeys/wolfyxon.txt
+Expires: 2027-09-05
