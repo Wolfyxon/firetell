@@ -5,9 +5,9 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { SubmitEvent, useEffect, useState } from "react";
 import { FIREBASE_AUTH_ERRORS, getFrbApp } from "@/lib/shared/firebaseUtil";
 import { PublicPage } from "@/layouts/Page/PublicPage";
+import { LoggedInChatRedirect, redirectToChat } from "@/comp/functional/LoggedInChatRedirect";
 
 import "@/style/signPage.css";
-import { LoggedInChatRedirect, redirectToChat } from "@/comp/functional/LoggedInChatRedirect";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
